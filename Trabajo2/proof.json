@@ -1,0 +1,33 @@
+{
+  "leaf": "alpha_delay_tx_085_9f55",
+  "path": [
+    [
+      "793751292fa12824e35bac9087f5c530b244a4aa4e8036c7d00676009d0f41c6",
+      "SELF"
+    ],
+    [
+      "SELF",
+      "8af79563a3231e9062c981554f87c52f9ad2a03f6b8f1e94b48c29edcf5dfd75"
+    ],
+    [
+      "db064c0bc6dd4c2b43b19eda8b23465006ae197c50c30823ff16056b455418f0",
+      "SELF"
+    ],
+    [
+      "SELF",
+      "6b2d3ff267799beb405bd669de346e40efe7ac2d1433d5af23f85692f50949d2"
+    ],
+    [
+      "245ae18822744836ecd7210dc276274eee0eaca3c93ff6e5347b5a6f2a276353",
+      "SELF"
+    ],
+    [
+      "SELF",
+      "cc8ac3378aa8cca9b2572bdba342b0ad53becd19704a252d2aa88b626352c314"
+    ],
+    [
+      "cd4c47451d924adcdc19e725dc9ec2be270c919e54463a977d69651cd3e0074e",
+      "SELF"
+    ]
+  ]
+}
