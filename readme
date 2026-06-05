@@ -4,9 +4,9 @@
 
 ChessNFT es un contrato inteligente desarrollado en Solidity que implementa el estándar ERC-721 (NFT) para representar partidas de ajedrez como activos digitales únicos.
 
-Cada partida se almacena fuera de la blockchain utilizando IPFS (InterPlanetary File System) y el NFT guarda la referencia al archivo mediante su URI IPFS.
+Cada NFT corresponde a una partida de ajedrez almacenada en IPFS (InterPlanetary File System). El contrato guarda la referencia mediante una URI IPFS, permitiendo acceder al contenido de forma descentralizada.
 
-Además, el contrato incluye funcionalidades básicas de compraventa de NFTs utilizando un token ERC-20 como medio de pago.
+Adicionalmente, el contrato incorpora un sistema básico de compraventa utilizando tokens ERC-20 como método de pago.
 
 ---
 
@@ -20,7 +20,21 @@ Además, el contrato incluye funcionalidades básicas de compraventa de NFTs uti
 * Pinata
 * Remix IDE
 * MetaMask
-* Sepolia Testnet
+* Ethereum Sepolia Testnet
+
+---
+
+## Estructura del proyecto
+
+ProyectoFinal_Guasca_Katheryn/
+
+├── ChessNFT.sol
+
+├── ChessNFT_ABI.json
+
+├── README.md
+
+└── Partidas_IPFS.txt
 
 ---
 
@@ -30,7 +44,16 @@ Dirección del contrato:
 
 0xacf183288038FB082541f266BaF8B461319FEFF0
 
-Esta dirección identifica de forma única el contrato desplegado en la red Ethereum Sepolia. Gracias a ella cualquier usuario puede interactuar con el contrato y consultar sus funciones.
+### ¿Qué es esta dirección?
+
+Cuando un contrato inteligente se despliega en Ethereum, la red le asigna una dirección única.
+
+Esta dirección permite:
+
+* Consultar la información del contrato.
+* Ejecutar sus funciones.
+* Ver las transacciones realizadas.
+* Interactuar con los NFTs creados.
 
 ---
 
@@ -58,47 +81,108 @@ ipfs://bafkreih7lnjvcb3jnmcb2cwww5vhza5qizy63ehvwtw4skhadho3o2fyc4
 
 ---
 
-## Explicación paso a paso del proyecto
+## Desarrollo del proyecto paso a paso
 
-### 1. Obtención de las partidas
+### Paso 1. Obtención de las partidas
 
-Se descargaron cinco partidas de ajedrez desde la plataforma Lichess en formato PGN (Portable Game Notation).
+Se seleccionaron cinco partidas de ajedrez en formato PGN (Portable Game Notation).
 
-El formato PGN permite almacenar toda la información de una partida, incluyendo jugadores, movimientos y resultado.
+El formato PGN almacena toda la información de una partida:
 
-### 2. Almacenamiento en IPFS
+* Jugadores.
+* Fecha.
+* Apertura.
+* Movimientos realizados.
+* Resultado final.
 
-Las cinco partidas fueron cargadas a IPFS utilizando Pinata.
+---
 
-Al subir cada archivo, IPFS genera un identificador único llamado CID (Content Identifier), que permite recuperar el contenido desde cualquier nodo de la red IPFS.
+### Paso 2. Almacenamiento en IPFS
 
-### 3. Desarrollo del contrato inteligente
+Cada archivo PGN fue cargado a IPFS mediante la plataforma Pinata.
 
-Se creó el contrato ChessNFT utilizando la librería OpenZeppelin.
+Al subir un archivo, IPFS genera un identificador único llamado CID (Content Identifier).
 
-El contrato hereda de ERC721URIStorage para permitir asociar una URI a cada NFT.
+Este identificador permite recuperar el contenido desde cualquier nodo de la red IPFS.
 
-También utiliza Ownable para la administración del contrato e IERC20 para permitir pagos mediante tokens ERC-20.
+Ejemplo:
 
-### 4. Creación de NFTs
+ipfs://bafkreihh4a4snjvjf4cvuocj2ucdxk6fkyuaatcqe4eeu4vg5flfzkhvhu
 
-La función mintGame() permite crear un NFT asociado a una partida.
+---
+
+### Paso 3. Desarrollo del contrato inteligente
+
+Se desarrolló el contrato ChessNFT utilizando Solidity y las librerías OpenZeppelin.
+
+El contrato hereda de:
+
+* ERC721URIStorage: permite asociar una URI a cada NFT.
+* Ownable: proporciona control de propietario.
+* IERC20: permite realizar pagos mediante tokens ERC-20.
+
+---
+
+### Paso 4. Compilación del contrato
+
+El contrato fue compilado en Remix IDE utilizando:
+
+Solidity Compiler 0.8.20
+
+Durante la compilación se generó:
+
+* Bytecode.
+* ABI (Application Binary Interface).
+
+El ABI permite que aplicaciones externas interactúen con el contrato.
+
+---
+
+### Paso 5. Despliegue del contrato
+
+El contrato fue desplegado utilizando Remix y MetaMask.
+
+Se utilizó la red:
+
+Ethereum Sepolia Testnet.
+
+Durante el despliegue se proporcionó la dirección de un token ERC-20 para utilizarlo como método de pago dentro del marketplace.
+
+Una vez desplegado, Ethereum asignó la dirección:
+
+0xacf183288038FB082541f266BaF8B461319FEFF0
+
+---
+
+### Paso 6. Creación de NFTs
+
+La función:
+
+mintGame(string _tokenURI)
+
+permite crear NFTs asociados a partidas de ajedrez.
 
 Proceso:
 
-1. Se recibe una URI IPFS.
-2. Se genera un nuevo tokenId.
+1. El usuario proporciona una URI IPFS.
+2. El contrato genera un nuevo tokenId.
 3. Se crea el NFT.
-4. Se almacena la URI de la partida.
+4. Se almacena la URI.
 5. El NFT queda asignado al creador.
 
 Ejemplo:
 
 mintGame("ipfs://CID")
 
-### 5. Publicación en venta
+---
 
-La función putOnSale() permite que el propietario publique un NFT para la venta.
+### Paso 7. Publicación en venta
+
+La función:
+
+putOnSale(uint256 tokenId, uint256 price)
+
+permite poner un NFT a la venta.
 
 Se almacena:
 
@@ -106,20 +190,27 @@ Se almacena:
 * Precio.
 * Estado de venta.
 
-### 6. Compra de NFTs
+---
 
-La función buyNFT() permite adquirir un NFT utilizando un token ERC-20.
+### Paso 8. Compra de NFTs
+
+La función:
+
+buyNFT(uint256 tokenId)
+
+permite comprar un NFT utilizando un token ERC-20.
 
 Proceso:
 
-1. El comprador aprueba el gasto del token ERC-20.
+1. El comprador aprueba el gasto de tokens.
 2. Se ejecuta buyNFT().
-3. El pago se transfiere al vendedor.
+3. El contrato transfiere el pago al vendedor.
 4. El NFT cambia de propietario.
+5. La venta queda finalizada.
 
 ---
 
-## Funciones principales
+## Funciones principales del contrato
 
 ### mintGame(string _tokenURI)
 
@@ -133,18 +224,26 @@ Publica un NFT para la venta.
 
 Consulta la información de venta de un NFT.
 
+Retorna:
+
+* Vendedor.
+* Precio.
+* Estado de venta.
+
 ### buyNFT(uint256 tokenId)
 
-Permite comprar un NFT utilizando un token ERC-20.
+Permite comprar un NFT utilizando tokens ERC-20.
 
 ---
 
 ## Resultados obtenidos
 
-* Se almacenaron 5 partidas de ajedrez en IPFS.
-* Se generaron NFTs para representar dichas partidas.
-* Cada NFT contiene una referencia permanente a su partida.
-* Se implementó un sistema básico de compraventa de NFTs utilizando tokens ERC-20.
+* Se almacenaron cinco partidas de ajedrez en IPFS.
+* Se generaron los identificadores CID correspondientes.
+* Se desarrolló un contrato ERC-721 funcional.
+* Se implementó un sistema básico de marketplace.
+* Cada NFT mantiene una referencia permanente a una partida de ajedrez.
+* El contrato fue desplegado exitosamente en Ethereum Sepolia.
 
 ---
 
@@ -152,4 +251,4 @@ Permite comprar un NFT utilizando un token ERC-20.
 
 Katheryn Guasca Chavarro
 
-Proyecto Final - Blockchain
+Proyecto Final – Blockchain
