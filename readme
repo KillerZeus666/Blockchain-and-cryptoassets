@@ -1,0 +1,155 @@
+# ChessNFT - Proyecto Final Blockchain
+
+## Descripción
+
+ChessNFT es un contrato inteligente desarrollado en Solidity que implementa el estándar ERC-721 (NFT) para representar partidas de ajedrez como activos digitales únicos.
+
+Cada partida se almacena fuera de la blockchain utilizando IPFS (InterPlanetary File System) y el NFT guarda la referencia al archivo mediante su URI IPFS.
+
+Además, el contrato incluye funcionalidades básicas de compraventa de NFTs utilizando un token ERC-20 como medio de pago.
+
+---
+
+## Tecnologías utilizadas
+
+* Solidity 0.8.20
+* OpenZeppelin Contracts
+* ERC-721 (NFT)
+* ERC-20
+* IPFS
+* Pinata
+* Remix IDE
+* MetaMask
+* Sepolia Testnet
+
+---
+
+## Contrato desplegado
+
+Dirección del contrato:
+
+0xacf183288038FB082541f266BaF8B461319FEFF0
+
+Esta dirección identifica de forma única el contrato desplegado en la red Ethereum Sepolia. Gracias a ella cualquier usuario puede interactuar con el contrato y consultar sus funciones.
+
+---
+
+## Partidas almacenadas en IPFS
+
+### Juego 1
+
+ipfs://bafkreihh4a4snjvjf4cvuocj2ucdxk6fkyuaatcqe4eeu4vg5flfzkhvhu
+
+### Juego 2
+
+ipfs://bafkreiacmaymsi4yj6exlqtqovtyjasmldhp7bk3sehmsulz5xvhmjnkwe
+
+### Juego 3
+
+ipfs://bafkreiapsslxuwvp4gfb37w3teiysoixedaqy3ysbe5bokrxysidotnhoa
+
+### Juego 4
+
+ipfs://bafkreifegonmt2zfyql5vwg2khtyn5qywtoaygyxawb55gzip4xrkwqopq
+
+### Juego 5
+
+ipfs://bafkreih7lnjvcb3jnmcb2cwww5vhza5qizy63ehvwtw4skhadho3o2fyc4
+
+---
+
+## Explicación paso a paso del proyecto
+
+### 1. Obtención de las partidas
+
+Se descargaron cinco partidas de ajedrez desde la plataforma Lichess en formato PGN (Portable Game Notation).
+
+El formato PGN permite almacenar toda la información de una partida, incluyendo jugadores, movimientos y resultado.
+
+### 2. Almacenamiento en IPFS
+
+Las cinco partidas fueron cargadas a IPFS utilizando Pinata.
+
+Al subir cada archivo, IPFS genera un identificador único llamado CID (Content Identifier), que permite recuperar el contenido desde cualquier nodo de la red IPFS.
+
+### 3. Desarrollo del contrato inteligente
+
+Se creó el contrato ChessNFT utilizando la librería OpenZeppelin.
+
+El contrato hereda de ERC721URIStorage para permitir asociar una URI a cada NFT.
+
+También utiliza Ownable para la administración del contrato e IERC20 para permitir pagos mediante tokens ERC-20.
+
+### 4. Creación de NFTs
+
+La función mintGame() permite crear un NFT asociado a una partida.
+
+Proceso:
+
+1. Se recibe una URI IPFS.
+2. Se genera un nuevo tokenId.
+3. Se crea el NFT.
+4. Se almacena la URI de la partida.
+5. El NFT queda asignado al creador.
+
+Ejemplo:
+
+mintGame("ipfs://CID")
+
+### 5. Publicación en venta
+
+La función putOnSale() permite que el propietario publique un NFT para la venta.
+
+Se almacena:
+
+* Dirección del vendedor.
+* Precio.
+* Estado de venta.
+
+### 6. Compra de NFTs
+
+La función buyNFT() permite adquirir un NFT utilizando un token ERC-20.
+
+Proceso:
+
+1. El comprador aprueba el gasto del token ERC-20.
+2. Se ejecuta buyNFT().
+3. El pago se transfiere al vendedor.
+4. El NFT cambia de propietario.
+
+---
+
+## Funciones principales
+
+### mintGame(string _tokenURI)
+
+Crea un NFT asociado a una partida almacenada en IPFS.
+
+### putOnSale(uint256 tokenId, uint256 price)
+
+Publica un NFT para la venta.
+
+### getSaleInfo(uint256 tokenId)
+
+Consulta la información de venta de un NFT.
+
+### buyNFT(uint256 tokenId)
+
+Permite comprar un NFT utilizando un token ERC-20.
+
+---
+
+## Resultados obtenidos
+
+* Se almacenaron 5 partidas de ajedrez en IPFS.
+* Se generaron NFTs para representar dichas partidas.
+* Cada NFT contiene una referencia permanente a su partida.
+* Se implementó un sistema básico de compraventa de NFTs utilizando tokens ERC-20.
+
+---
+
+## Autor
+
+Katheryn Guasca Chavarro
+
+Proyecto Final - Blockchain
